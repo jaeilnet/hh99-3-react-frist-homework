@@ -2,7 +2,7 @@ import { Button } from "@mui/material"
 import React, { useRef } from "react"
 import { useDispatch } from "react-redux"
 import { useHistory } from "react-router"
-import { createWord } from "./redux/modules/word"
+import { createCardFB } from "./redux/modules/word"
 import styled from "styled-components"
 
 const InputContainer = styled.div`
@@ -35,8 +35,16 @@ export const Input = () => {
       descRef.current.value &&
       exampleRef.current.value
     ) {
+      // dispatch(
+      //   createCard({
+      //     word: wordRef.current.value,
+      //     desc: descRef.current.value,
+      //     example: exampleRef.current.value,
+      //   })
+      // )
+
       dispatch(
-        createWord({
+        createCardFB({
           word: wordRef.current.value,
           desc: descRef.current.value,
           example: exampleRef.current.value,
