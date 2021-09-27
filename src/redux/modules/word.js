@@ -34,6 +34,7 @@ export const createCardFB = (card) => {
       id: card.id,
       ...docRef_data,
     }
+    console.log("카드데ㅣ어", card_data)
     dispatch(createCard(card_data))
   }
 }
@@ -46,22 +47,23 @@ export const loadCardFB = () => {
     let card_list = []
 
     card_data.forEach((card) => {
-      console.log("나는카드데이터", card.id, card.data())
+      // console.log("나는카드데이터", card.id, card.data())
       card_list.push({ id: card.id, ...card.data() })
     })
     dispatch(loadCard(card_list))
-    console.log("로드카드", card_list)
+    // console.log("로드카드", card_list)
   }
 }
 
 const initialState = {
+  is_loaded: false,
   cardList: [],
 }
 
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case "card/LOAD": {
-      return { cardList: action.card_list }
+      return { cardList: action.card_list, is_loaded: true }
     }
     case "card/Create": {
       const new_card_list = [...state.cardList, action.card]

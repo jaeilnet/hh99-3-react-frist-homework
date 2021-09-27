@@ -1,9 +1,10 @@
 import { Button } from "@mui/material"
 import React, { useRef } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router"
-import { createCardFB } from "./redux/modules/word"
+import { createCardFB } from "../redux/modules/word"
 import styled from "styled-components"
+import { Spinner } from "./Spinner"
 
 const InputContainer = styled.div`
   background-color: aliceblue;
@@ -13,6 +14,7 @@ const InputContainer = styled.div`
   margin: 150px auto 0 auto;
   padding: 30px;
   text-align: center;
+  border-radius: 10px;
 `
 const Inputs = styled.input`
   width: 80%;
@@ -20,6 +22,7 @@ const Inputs = styled.input`
   padding: 5px;
 `
 export const Input = () => {
+  const is_loaded = useSelector((state) => state.word.is_loaded)
   const dispatch = useDispatch()
   const history = useHistory()
   const wordRef = useRef("")
@@ -35,14 +38,6 @@ export const Input = () => {
       descRef.current.value &&
       exampleRef.current.value
     ) {
-      // dispatch(
-      //   createCard({
-      //     word: wordRef.current.value,
-      //     desc: descRef.current.value,
-      //     example: exampleRef.current.value,
-      //   })
-      // )
-
       dispatch(
         createCardFB({
           word: wordRef.current.value,
@@ -63,18 +58,38 @@ export const Input = () => {
 
   return (
     <InputContainer>
-      단어추가하기
+      단어 추가하기
       <Inputs type="text" placeholder="여기는 단어" ref={wordRef}></Inputs>
       <Inputs type="text" placeholder="여기는 설명" ref={descRef}></Inputs>
       <Inputs type="text" placeholder="여기는 예시" ref={exampleRef}></Inputs>
-      <Button onClick={addBtn}> 추가하기 </Button>
       <Button
+        sx={{
+          ":hover": {
+            backgroundColor: "black",
+            color: "white",
+            boxShadow: 5,
+          },
+        }}
+        onClick={addBtn}
+      >
+        {" "}
+        추가하기{" "}
+      </Button>
+      <Button
+        sx={{
+          ":hover": {
+            backgroundColor: "black",
+            color: "white",
+            boxShadow: 5,
+          },
+        }}
         onClick={() => {
           history.push("/")
         }}
       >
         홈으로
       </Button>
+      {!is_loaded && <Spinner />}
     </InputContainer>
   )
 }
