@@ -1,8 +1,9 @@
 import { Button } from "@mui/material"
-import React from "react"
-import { useSelector } from "react-redux"
+import React, { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { useHistory, useParams } from "react-router"
 import styled from "styled-components"
+import { deleteCardFB } from "../redux/modules/word"
 
 const ModalContianer = styled.div`
   position: fixed;
@@ -47,6 +48,7 @@ const SubTitle = styled.p`
 `
 
 export const Detail = (props) => {
+  const dispatch = useDispatch()
   const history = useHistory()
   const modal = useSelector((state) => state.word.cardList)
   const params = useParams()
@@ -54,7 +56,7 @@ export const Detail = (props) => {
   const card = modal.filter((card, idx) => {
     return card.id === params.id
   })
-  console.log(card)
+  console.log("난카드아이디", card, params.id)
 
   return (
     <ModalContianer>
@@ -97,6 +99,8 @@ export const Detail = (props) => {
             },
           }}
           onClick={() => {
+            console.log("onclick", card[0].id)
+            dispatch(deleteCardFB(card[0].id))
             history.push("/")
           }}
           style={{

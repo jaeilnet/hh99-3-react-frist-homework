@@ -1,10 +1,10 @@
-import { Button } from "@mui/material"
 import React, { useRef } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { useHistory } from "react-router"
-import { createCardFB } from "../redux/modules/word"
 import styled from "styled-components"
+import { useHistory } from "react-router"
+import { useDispatch, useSelector } from "react-redux"
+import { createCardFB } from "../redux/modules/word"
 import { Spinner } from "./Spinner"
+import { Button } from "@mui/material"
 
 const InputContainer = styled.div`
   background-color: aliceblue;

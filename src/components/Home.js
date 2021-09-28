@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import styled from "styled-components"
 import CardContent from "@mui/material/CardContent"
 import Typography from "@mui/material/Typography"
@@ -7,7 +7,6 @@ import { CardActionArea } from "@mui/material"
 import { useHistory } from "react-router"
 import { useSelector } from "react-redux"
 import { Spinner } from "./Spinner"
-import { Detail } from "./Detail"
 
 const CardBackground = styled.div`
   /* background-color: #efefef; */

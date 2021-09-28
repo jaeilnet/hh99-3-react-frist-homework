@@ -4,13 +4,13 @@ import {
   collection,
   doc,
   getDoc,
-  updateDoc,
   addDoc,
-  deleteeDoc,
+  deleteDoc,
 } from "@firebase/firestore"
 
 const LOAD = "card/LOAD"
-const Create = "card/Create"
+const Create = "card/CREATE"
+const DELETE = "card/DELETE"
 // const ADD_DESC = "card/ADD_DESC"
 // const ADD_EXAMPLE = "card/ADD_EXAMPLE"
 
@@ -22,22 +22,11 @@ export const createCard = (card) => {
   return { type: Create, card }
 }
 
-// 미들 함수
-
-export const createCardFB = (card) => {
-  return async function (dispatch) {
-    const docRef = await addDoc(collection(db, "wordList"), card)
-    console.log(docRef.id, docRef)
-    const docRef_data = (await getDoc(docRef)).data()
-    console.log(docRef_data)
-    const card_data = {
-      id: card.id,
-      ...docRef_data,
-    }
-    console.log("카드데ㅣ어", card_data)
-    dispatch(createCard(card_data))
-  }
+export const deleteCard = (card_id) => {
+  return { type: DELETE, card_id }
 }
+
+// 미들 함수
 
 export const loadCardFB = () => {
   return async function (dispatch) {
@@ -51,7 +40,35 @@ export const loadCardFB = () => {
       card_list.push({ id: card.id, ...card.data() })
     })
     dispatch(loadCard(card_list))
-    // console.log("로드카드", card_list)
+  }
+}
+
+export const createCardFB = (card) => {
+  return async function (dispatch) {
+    const docRef = await addDoc(collection(db, "wordList"), card)
+    const docRef_data = (await getDoc(docRef)).data()
+    const card_data = {
+      id: card.id,
+      ...docRef_data,
+    }
+    dispatch(createCard(card_data))
+  }
+}
+
+export const deleteCardFB = (card_id) => {
+  return async function (dispatch, getState) {
+    const docRef = doc(db, "wordList", card_id)
+    await deleteDoc(docRef)
+
+    const _cardList_id = getState().word.cardList
+
+    const cardList_id = _cardList_id.filter((card) => {
+      if (card.id === card_id) {
+        return card.id
+      }
+    })
+    console.log("삭제해보자", cardList_id[0])
+    dispatch(deleteCard(cardList_id[0]))
   }
 }
 
@@ -65,12 +82,18 @@ export default function reducer(state = initialState, action = {}) {
     case "card/LOAD": {
       return { cardList: action.card_list, is_loaded: true }
     }
-    case "card/Create": {
+    case "card/CREATE": {
       const new_card_list = [...state.cardList, action.card]
-      console.log("뉴카드리스ㅡㅌ", new_card_list)
       return { ...state, cardList: new_card_list }
     }
+    case "card/DELETE": {
+      const new_card_list = state.cardList.filter((card, idx) => {
+        // return card.id !== action.card_id
+      })
+      console.log("왜 로드 두번함", new_card_list)
 
+      return { ...state, cardList: new_card_list }
+    }
     default:
       return state
   }

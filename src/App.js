@@ -6,6 +6,7 @@ import { Detail } from "./components/Detail"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { loadCardFB } from "./redux/modules/word"
+import { NotFound } from "./components/NotFound"
 
 const Header = styled.div`
   /* width: 100%; */
@@ -20,8 +21,10 @@ const Header = styled.div`
 function App() {
   const dispatch = useDispatch()
   const cardList = useSelector((state) => state.word.cardList)
+  console.log("app카드리트", cardList)
 
   useEffect(() => {
+    console.log("나는로드중")
     dispatch(loadCardFB())
   }, [cardList.length])
   return (
@@ -36,6 +39,9 @@ function App() {
         </Route>
         <Route path="/detail/:id">
           <Detail />
+        </Route>
+        <Route>
+          <NotFound />
         </Route>
       </Switch>
     </div>
