@@ -21,10 +21,10 @@ const Header = styled.div`
 function App() {
   const dispatch = useDispatch()
   const cardList = useSelector((state) => state.word.cardList)
-  console.log("app카드리트", cardList)
+  // console.log("app카드리트", cardList)
 
   useEffect(() => {
-    console.log("나는로드중")
+    // console.log("나는로드중")
     dispatch(loadCardFB())
   }, [cardList.length])
   return (

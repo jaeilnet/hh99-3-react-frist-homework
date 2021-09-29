@@ -56,7 +56,6 @@ export const Detail = (props) => {
   const card = modal.filter((card, idx) => {
     return card.id === params.id
   })
-  console.log("난카드아이디", card, params.id)
 
   return (
     <ModalContianer>
@@ -99,7 +98,7 @@ export const Detail = (props) => {
             },
           }}
           onClick={() => {
-            console.log("onclick", card[0].id)
+            // console.log("onclick", card[0].id)
             dispatch(deleteCardFB(card[0].id))
             history.push("/")
           }}

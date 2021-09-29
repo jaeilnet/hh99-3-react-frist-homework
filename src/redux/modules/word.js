@@ -92,7 +92,7 @@ export default function reducer(state = initialState, action = {}) {
       })
       console.log("왜 로드 두번함", new_card_list)
 
-      return { ...state, cardList: new_card_list }
+      return { cardList: new_card_list }
     }
     default:
       return state
